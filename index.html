@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buletin Editor — Cloud</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app">
+
+  <!-- TOPBAR -->
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-mark">B</div>
+      <div class="brand-text">
+        <b>Buletin Editor</b>
+        <span id="cloudStatus">Memeriksa koneksi cloud…</span>
+      </div>
+    </div>
+    <button class="btn" id="btnContoh">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/></svg>
+      Contoh
+    </button>
+    <button class="btn" id="btnNew">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+      Baru
+    </button>
+    <button class="btn btn-danger-outline" id="btnReset">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7"/><path d="M3 4v5h5"/></svg>
+      Reset
+    </button>
+    <div class="topbar-divider"></div>
+    <button class="btn" id="btnLibrary">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      Tersimpan
+    </button>
+    <button class="btn btn-accent" id="btnSaveCloud">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg>
+      Simpan ke Cloud
+    </button>
+    <button class="btn" id="btnPNG">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+      PNG
+    </button>
+    <button class="btn btn-primary" id="btnPDF">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg>
+      PDF
+    </button>
+  </div>
+
+  <div class="main">
+
+    <!-- EDITOR PANEL -->
+    <div class="editor scrollable" id="editorPanel">
+
+      <!-- 1. LAYOUT -->
+      <div class="section">
+        <div class="section-head"><div class="section-num">1</div><div class="section-title">Layout</div></div>
+        <div class="layout-grid" id="layoutGrid"></div>
+        <div class="field hint" style="margin-top:8px;color:var(--text-faint);font-size:10.5px;line-height:1.5;">
+          Layout hanya mengubah tata letak visual. Isi, paragraf, dan batas karakter tetap sama di setiap layout.
+        </div>
+      </div>
+
+      <!-- 2. TEMA -->
+      <div class="section">
+        <div class="section-head"><div class="section-num">2</div><div class="section-title">Tema</div></div>
+        <div class="theme-grid" id="themeGrid"></div>
+
+        <div class="field" style="margin-top:16px;">
+          <label>Warna Kustom</label>
+          <div class="color-row">
+            <div class="color-pick"><input type="color" id="customPrimary" value="#7c2d3a"><span>Primer</span></div>
+            <div class="color-pick"><input type="color" id="customAccent" value="#c9a24b"><span>Aksen</span></div>
+            <div class="color-pick"><input type="color" id="customPaper" value="#f7f4ee"><span>Kertas</span></div>
+          </div>
+          <div class="hint">Mengubah warna kustom otomatis memilih tema "Kustom".</div>
+        </div>
+
+        <div class="field" style="margin-top:16px;">
+          <label>Background Tambahan (opsional)</label>
+          <div id="bgUploadBox" class="bg-upload-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin:0 auto;display:block;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M17 8l-5-5-5 5"/><path d="M12 3v12"/></svg>
+            <div class="t1">Unggah gambar latar</div>
+            <div class="t2">Ditumpuk di belakang seluruh dokumen</div>
+          </div>
+          <input type="file" id="bgFileInput" accept="image/*" style="display:none;">
+          <div class="bg-preview-row" id="bgPreviewRow" style="display:none;">
+            <img id="bgThumb" class="bg-thumb">
+            <div style="font-size:11.5px;color:var(--text-dim);">Gambar latar aktif</div>
+            <button class="bg-remove" id="bgRemoveBtn">✕</button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>Opasitas Background</label>
+          <div class="slider-row">
+            <input type="range" id="bgOpacity" min="0" max="100" value="18">
+            <div class="slider-val" id="bgOpacityVal">18%</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. IDENTITAS -->
+      <div class="section">
+        <div class="section-head"><div class="section-num">3</div><div class="section-title">Identitas</div></div>
+        <div class="row2">
+          <div class="field"><label>Edisi</label><input type="text" id="f_edisi" maxlength="40" value="EDISI 08 / 2026"></div>
+          <div class="field"><label>Rubrik</label><input type="text" id="f_rubrik" maxlength="30" value="LAPORAN KHUSUS"></div>
+        </div>
+        <div class="field"><label>Tanggal</label><input type="text" id="f_tanggal" maxlength="30" value="14 Agustus 2026"></div>
+        <div class="field"><label>Label Meta Header</label><input type="text" id="f_meta" maxlength="40" value="Sorotan Utama Pekan Ini"></div>
+      </div>
+
+      <!-- 4. HEADLINE -->
+      <div class="section">
+        <div class="section-head"><div class="section-num">4</div><div class="section-title">Headline</div></div>
+        <div class="field">
+          <label>Judul Utama <span class="counter" id="c_judul">0/100</span></label>
+          <textarea id="f_judul" maxlength="100" style="min-height:64px;">Merajut Asa di Tengah Perubahan, Bersama Kita Bertumbuh</textarea>
+          <div class="hint">Gunakan koma (,) — teks setelah koma akan tampil miring otomatis.</div>
+        </div>
+        <div class="field">
+          <label>Subjudul <span class="counter" id="c_subjudul">0/180</span></label>
+          <textarea id="f_subjudul" maxlength="180" style="min-height:56px;">Sebuah catatan perjalanan tentang bagaimana komunitas kecil mampu menghadirkan dampak besar bagi lingkungan sekitarnya.</textarea>
+        </div>
+      </div>
+
+      <!-- 5. FOTO HEADER -->
+      <div class="section">
+        <div class="section-head"><div class="section-num">5</div><div class="section-title">Foto Header</div></div>
+        <div class="photo-slot hero" id="heroSlot">
+          <div class="placeholder" id="heroPlaceholder">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            <span>Klik untuk unggah / ganti foto header</span>
+          </div>
+        </div>
+        <input type="file" id="heroFileInput" accept="image/*" style="display:none;">
+        <div class="field" style="margin-top:12px;"><label>Caption Foto Header</label><input type="text" id="f_herocap" maxlength="90" value="Warga bergotong royong menanam pohon di area konservasi, Sabtu pagi."></div>
+      </div>
+
+      <!-- 6. NARASI -->
+      <div class="section">
+        <div class="section-head"><div class="section-num">6</div><div class="section-title">Narasi</div></div>
+        <div class="field"><label>Label Narasi 1</label><input type="text" id="f_label1" maxlength="30" value="Kabar Utama"></div>
+        <div class="field">
+          <label>Paragraf Narasi 1 <span class="counter" id="c_narasi1">0/700</span></label>
+          <textarea id="f_narasi1" maxlength="700" style="min-height:140px;">Pagi itu udara masih basah oleh embun ketika puluhan warga berkumpul di lapangan desa. Mereka datang bukan untuk sebuah perayaan, melainkan untuk sebuah aksi nyata merawat bumi. Bibit-bibit pohon dibagikan satu demi satu, tangan-tangan kecil hingga dewasa bekerja sama menggali tanah dan menanam harapan baru bagi generasi mendatang. Suasana penuh kehangatan terasa di setiap sudut lapangan, diselingi canda tawa dan semangat gotong royong yang jarang ditemui di tengah rutinitas keseharian yang serba cepat.</textarea>
+        </div>
+        <div class="field"><label>Label Narasi 2</label><input type="text" id="f_label2" maxlength="30" value="Dampak & Harapan"></div>
+        <div class="field">
+          <label>Paragraf Narasi 2 <span class="counter" id="c_narasi2">0/700</span></label>
+          <textarea id="f_narasi2" maxlength="700" style="min-height:140px;">Program ini telah berjalan selama tiga tahun terakhir dan berhasil menghijaukan lebih dari lima hektare lahan kritis. Bukan hanya soal pohon yang tumbuh, tetapi juga tentang kesadaran kolektif yang perlahan mengakar di tengah masyarakat, menjadikan kepedulian lingkungan sebagai bagian dari identitas bersama. Setiap keluarga yang terlibat kini memiliki rasa memiliki terhadap lahan yang mereka rawat, sebuah ikatan emosional yang tumbuh seiring dengan pepohonan itu sendiri.</textarea>
+        </div>
+        <div class="field"><label>Label Narasi 3</label><input type="text" id="f_label3" maxlength="30" value="Langkah ke Depan"></div>
+        <div class="field">
+          <label>Paragraf Narasi 3 <span class="counter" id="c_narasi3">0/700</span></label>
+          <textarea id="f_narasi3" maxlength="700" style="min-height:140px;">Ke depan, pengurus komunitas berencana memperluas jangkauan program ke tiga desa tetangga sekaligus membuka pelatihan pembibitan bagi generasi muda. Harapannya, semangat merawat lingkungan ini tidak berhenti pada satu generasi, melainkan terus diwariskan sebagai bagian dari budaya gotong royong yang menjadi identitas warga sejak dahulu.</textarea>
+        </div>
+      </div>
+
+      <!-- 7. KUTIPAN -->
+      <div class="section">
+        <div class="section-head"><div class="section-num">7</div><div class="section-title">Kutipan</div></div>
+        <div class="field">
+          <label>Teks Kutipan <span class="counter" id="c_kutipan">0/220</span></label>
+          <textarea id="f_kutipan" maxlength="220" style="min-height:80px;">Kami tidak menanam untuk diri kami sendiri, tetapi untuk anak cucu yang akan meneduh di bawahnya kelak.</textarea>
+        </div>
+        <div class="field"><label>Atribusi</label><input type="text" id="f_kutipanauthor" maxlength="60" value="Ketua Kelompok Tani Hijau Lestari"></div>
+      </div>
+
+      <!-- 8. DOKUMENTASI -->
+      <div class="section">
+        <div class="section-head"><div class="section-num">8</div><div class="section-title">Dokumentasi</div></div>
+        <div class="doc-grid">
+          <div>
+            <div class="photo-slot doc" data-idx="0" id="docSlot0">
+              <div class="placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>01</span></div>
+            </div>
+            <input type="file" id="docFileInput0" accept="image/*" style="display:none;">
+            <input type="text" id="f_doccap0" maxlength="60" placeholder="Caption 01" value="Pembagian bibit pohon" style="margin-top:6px;font-size:11px;padding:6px 8px;">
+          </div>
+          <div>
+            <div class="photo-slot doc" data-idx="1" id="docSlot1">
+              <div class="placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>02</span></div>
+            </div>
+            <input type="file" id="docFileInput1" accept="image/*" style="display:none;">
+            <input type="text" id="f_doccap1" maxlength="60" placeholder="Caption 02" value="Proses penanaman bersama" style="margin-top:6px;font-size:11px;padding:6px 8px;">
+          </div>
+          <div>
+            <div class="photo-slot doc" data-idx="2" id="docSlot2">
+              <div class="placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg><span>03</span></div>
+            </div>
+            <input type="file" id="docFileInput2" accept="image/*" style="display:none;">
+            <input type="text" id="f_doccap2" maxlength="60" placeholder="Caption 03" value="Foto bersama warga" style="margin-top:6px;font-size:11px;padding:6px 8px;">
+          </div>
+        </div>
+      </div>
+
+      <!-- 9. FOOTER -->
+      <div class="section">
+        <div class="section-head"><div class="section-num">9</div><div class="section-title">Footer</div></div>
+        <div class="field"><label>Nama Organisasi</label><input type="text" id="f_org" maxlength="50" value="Komunitas Hijau Lestari"></div>
+        <div class="field"><label>Kontak</label><input type="text" id="f_kontak" maxlength="70" value="hijaulestari.org  ·  @hijaulestari  ·  0812-xxxx-xxxx"></div>
+        <div class="field"><label>Nama Penulis</label><input type="text" id="f_penulis" maxlength="50" value="Ditulis oleh Aulia R."></div>
+      </div>
+
+    </div>
+
+    <!-- PREVIEW PANEL -->
+    <div class="preview-wrap">
+      <div class="preview-scroll scrollable" id="previewScroll">
+        <div class="a4-stage" id="a4Stage">
+          <div id="a4doc" data-layout="classic">
+            <div id="bg-overlay-layer"></div>
+            <div class="doc-content">
+
+              <div class="top-strip">
+                <span id="p_edisi">EDISI 08 / 2026</span>
+                <span class="ts-mid" id="p_rubrik">LAPORAN KHUSUS</span>
+                <span class="ts-right" id="p_tanggal">14 AGUSTUS 2026</span>
+              </div>
+
+              <div class="doc-header" id="p_docHeader">
+                <div class="header-photo-layer" id="p_headerPhoto"></div>
+                <div class="header-overlay no-photo" id="p_headerOverlay"></div>
+                <button type="button" class="header-change-btn" id="p_headerChangeBtn" data-html2canvas-ignore="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                  <span id="p_headerChangeLabel">Ganti Foto</span>
+                </button>
+                <div class="header-text">
+                  <div class="meta" id="p_meta">Sorotan Utama Pekan Ini</div>
+                  <h1 class="doc-title" id="p_judul"></h1>
+                  <div class="doc-sub" id="p_subjudul"></div>
+                  <div class="header-caption-tag" id="p_herocaptag">
+                    <span class="dot"></span><span class="txt" id="p_herocap"></span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="doc-flow" id="docFlow">
+                <div class="blk-n1">
+                  <div class="sec-label" id="p_label1"></div>
+                  <div class="narrative-text" id="p_narasi1"></div>
+                </div>
+
+                <div class="blk-quote">
+                  <div class="doc-quote">
+                    <div class="qmark">&ldquo;</div>
+                    <p id="p_kutipan"></p>
+                    <div class="qauthor" id="p_kutipanauthor"></div>
+                  </div>
+                </div>
+
+                <div class="blk-n2">
+                  <div class="sec-label" id="p_label2"></div>
+                  <div class="narrative-text" id="p_narasi2"></div>
+                </div>
+
+                <div class="blk-n3">
+                  <div class="sec-label" id="p_label3"></div>
+                  <div class="narrative-text" id="p_narasi3"></div>
+                </div>
+
+                <div class="blk-docs">
+                  <div class="doc-docs">
+                    <div class="sec-label">Dokumentasi Kegiatan</div>
+                    <div class="docs-grid">
+                      <div class="doc-item">
+                        <div class="doc-photo" id="p_docphoto0"><div class="num-badge">01</div><div class="doc-empty">Belum ada foto</div></div>
+                        <div class="doc-cap" id="p_doccap0"></div>
+                      </div>
+                      <div class="doc-item">
+                        <div class="doc-photo" id="p_docphoto1"><div class="num-badge">02</div><div class="doc-empty">Belum ada foto</div></div>
+                        <div class="doc-cap" id="p_doccap1"></div>
+                      </div>
+                      <div class="doc-item">
+                        <div class="doc-photo" id="p_docphoto2"><div class="num-badge">03</div><div class="doc-empty">Belum ada foto</div></div>
+                        <div class="doc-cap" id="p_doccap2"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="doc-footer">
+                <div>
+                  <div class="org" id="p_org"></div>
+                  <div class="contact" id="p_kontak"></div>
+                </div>
+                <div class="writer" id="p_penulis"></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ZOOM TOOLBAR -->
+      <div class="zoom-toolbar">
+        <button class="zoom-btn" id="zoomOut" title="Zoom Out">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M8 11h6"/></svg>
+        </button>
+        <div class="zoom-label" id="zoomLabel">70%</div>
+        <button class="zoom-btn" id="zoomIn" title="Zoom In">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/><path d="M11 8v6"/><path d="M8 11h6"/></svg>
+        </button>
+        <div class="zoom-divider"></div>
+        <button class="zoom-fit-btn" id="zoomFit">Fit to Screen</button>
+        <div class="zoom-divider"></div>
+        <button class="zoom-fit-btn" id="zoom100">100%</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- LIBRARY DRAWER (saved bulletins from Supabase) -->
+<div class="modal-backdrop" id="libraryBackdrop">
+  <div class="modal-box library-box">
+    <h3>Buletin Tersimpan</h3>
+    <p>Daftar buletin yang tersimpan di database Supabase kamu.</p>
+    <div id="libraryList" class="library-list">
+      <div class="library-empty">Memuat…</div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn" id="libraryClose">Tutup</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL (RESET) -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal-box">
+    <div class="modal-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+    </div>
+    <h3>Reset semua data?</h3>
+    <p>Seluruh teks dan foto yang telah diisi akan dihapus dan dikembalikan ke kondisi kosong. Buletin yang sudah tersimpan di cloud tidak akan terhapus.</p>
+    <div class="modal-actions">
+      <button class="btn" id="modalCancel">Batal</button>
+      <button class="btn btn-primary" style="background:var(--danger);box-shadow:none;" id="modalConfirm">Ya, Reset</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST STACK -->
+<div class="toast-stack" id="toastStack"></div>
+
+<!-- LOADING OVERLAY -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="spinner"></div>
+  <span id="loadingText">Menyiapkan ekspor...</span>
+</div>
+
+<script src="supabase-config.js"></script>
+<script src="themes.js"></script>
+<script src="layouts.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
