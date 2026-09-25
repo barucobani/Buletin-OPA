@@ -134,10 +134,55 @@
     }
   }
 
-  /* ============ LAYOUT ============ */
+  /* ============ MODE (Buletin / Newsletter) + LAYOUT ============ */
   const LAYOUTS = window.LAYOUTS;
   let currentLayout = LAYOUTS[0].id;
   const layoutGrid = document.getElementById('layoutGrid');
+  const modebarHint = document.getElementById('modebarHint');
+
+  const MODE_HINTS = {
+    buletin: 'Layout gaya laporan formal: Klasik, Sidebar, Majalah, Galeri, Minimal, Editorial Teks, Fokus Cerita.',
+    newsletter: 'Layout gaya newsletter grafis ala Canva: Korporat Ungu, Surat Kabar, Korporat Biru.'
+  };
+
+  function layoutsForMode(mode){
+    return LAYOUTS.filter(l => (l.group || 'buletin') === mode);
+  }
+  function groupOf(layoutId){
+    const l = LAYOUTS.find(x => x.id === layoutId);
+    return (l && l.group) || 'buletin';
+  }
+
+  let currentMode = 'buletin';
+
+  function renderLayoutGrid(){
+    layoutGrid.innerHTML = '';
+    layoutsForMode(currentMode).forEach(l=>{
+      const chip = document.createElement('div');
+      chip.className = 'layout-chip' + (l.id===currentLayout ? ' active' : '');
+      chip.dataset.layoutId = l.id;
+      chip.innerHTML = `<svg viewBox="0 0 40 36">${l.icon}</svg><div class="lc-name">${l.name}</div>`;
+      chip.addEventListener('click', ()=>applyLayout(l.id));
+      layoutGrid.appendChild(chip);
+    });
+  }
+
+  function setMode(mode, opts={}){
+    currentMode = mode;
+    document.querySelectorAll('.mode-tab').forEach(el=>{
+      el.classList.toggle('active', el.dataset.mode===mode);
+    });
+    modebarHint.textContent = MODE_HINTS[mode] || '';
+    renderLayoutGrid();
+    if(!opts.silent && groupOf(currentLayout) !== mode){
+      const list = layoutsForMode(mode);
+      if(list.length) applyLayout(list[0].id);
+    }
+  }
+
+  document.querySelectorAll('.mode-tab').forEach(btn=>{
+    btn.addEventListener('click', ()=>setMode(btn.dataset.mode));
+  });
 
   function applyLayout(id){
     currentLayout = id;
@@ -146,14 +191,6 @@
       el.classList.toggle('active', el.dataset.layoutId===id);
     });
   }
-  LAYOUTS.forEach(l=>{
-    const chip = document.createElement('div');
-    chip.className = 'layout-chip';
-    chip.dataset.layoutId = l.id;
-    chip.innerHTML = `<svg viewBox="0 0 40 36">${l.icon}</svg><div class="lc-name">${l.name}</div>`;
-    chip.addEventListener('click', ()=>applyLayout(l.id));
-    layoutGrid.appendChild(chip);
-  });
 
   /* ============ STATE ============ */
   const state = {
@@ -482,6 +519,7 @@
     bgUploadBox.style.display = 'block';
     bgPreviewRow.style.display = 'none';
     applyTheme(THEMES[0].id);
+    setMode('buletin');
     applyLayout(LAYOUTS[0].id);
     render();
   }
@@ -671,7 +709,9 @@
       bgPreviewRow.style.display = 'none';
     }
     state.id = row.id;
-    applyLayout(row.layout || LAYOUTS[0].id);
+    const loadedLayout = row.layout || LAYOUTS[0].id;
+    setMode(groupOf(loadedLayout), {silent:true});
+    applyLayout(loadedLayout);
     loadThemeSnapshot(row.theme);
     render();
   }
@@ -760,6 +800,7 @@
 
   /* ============ INIT ============ */
   applyTheme(THEMES[0].id);
+  setMode('buletin', {silent:true});
   applyLayout(LAYOUTS[0].id);
   render();
   requestAnimationFrame(fitToScreen);
