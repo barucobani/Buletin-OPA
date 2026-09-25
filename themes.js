@@ -16,5 +16,8 @@ window.THEMES = [
   {id:"ocean-teal",    name:"Ocean Teal",     primary:"#125b5e", primaryDark:"#0a3d3f", accent:"#e8b458", onPrimary:"#eef8f7", paper:"#f2f6f5"},
   {id:"terracotta",    name:"Terracotta",     primary:"#a1462b", primaryDark:"#7a2f1a", accent:"#e3c48a", onPrimary:"#fbf0e8", paper:"#f8f1e9"},
   {id:"slate-mint",    name:"Slate Mint",     primary:"#374957", primaryDark:"#232e38", accent:"#8fd6b4", onPrimary:"#eef3f4", paper:"#f2f5f4"},
-  {id:"plum-rosegold", name:"Plum Rosegold",  primary:"#5c2340", primaryDark:"#3c1729", accent:"#e0aa8f", onPrimary:"#f8eef3", paper:"#f7f0f2"}
+  {id:"plum-rosegold", name:"Plum Rosegold",  primary:"#5c2340", primaryDark:"#3c1729", accent:"#e0aa8f", onPrimary:"#f8eef3", paper:"#f7f0f2"},
+  {id:"violet-bisnis",  name:"Violet Bisnis",  primary:"#5b21b6", primaryDark:"#37146f", accent:"#ec4899", onPrimary:"#f6eefb", paper:"#f7f2fb"},
+  {id:"newsprint-noir", name:"Newsprint Noir", primary:"#141416", primaryDark:"#000000", accent:"#c0392b", onPrimary:"#f4f4f4", paper:"#121316"},
+  {id:"sky-korporat",   name:"Sky Korporat",   primary:"#2f8fd1", primaryDark:"#1c5f8f", accent:"#0f4c75", onPrimary:"#ffffff", paper:"#eef6fb"}
 ];

@@ -30,5 +30,20 @@ window.LAYOUTS = [
     id:"minimal",
     name:"Minimal",
     icon:'<rect x="10" y="4" width="20" height="6" rx="1.5" fill="currentColor" opacity=".5"/><rect x="8" y="14" width="24" height="3" rx="1" fill="currentColor" opacity=".6"/><rect x="8" y="19" width="24" height="3" rx="1" fill="currentColor" opacity=".6"/><rect x="12" y="26" width="16" height="4" rx="1" fill="currentColor" opacity=".9"/>'
+  },
+  {
+    id:"ungu-korporat",
+    name:"Korporat Ungu",
+    icon:'<rect x="4" y="4" width="18" height="14" rx="1.5" fill="currentColor" opacity=".9"/><rect x="24" y="4" width="12" height="14" rx="1.5" fill="currentColor" opacity=".35"/><rect x="4" y="21" width="9" height="11" rx="1" fill="currentColor" opacity=".6"/><rect x="15" y="21" width="9" height="11" rx="1" fill="currentColor" opacity=".6"/><rect x="26" y="21" width="10" height="11" rx="1" fill="currentColor" opacity=".9"/>'
+  },
+  {
+    id:"surat-kabar",
+    name:"Surat Kabar",
+    icon:'<rect x="4" y="4" width="32" height="32" rx="1.5" fill="currentColor" opacity=".12"/><rect x="8" y="8" width="24" height="6" rx="1" fill="currentColor" opacity=".9"/><rect x="8" y="17" width="11" height="14" rx="1" fill="currentColor" opacity=".5"/><rect x="21" y="17" width="11" height="6" rx="1" fill="currentColor" opacity=".5"/><rect x="21" y="25" width="11" height="6" rx="1" fill="currentColor" opacity=".8"/>'
+  },
+  {
+    id:"biru-korporat",
+    name:"Korporat Biru",
+    icon:'<rect x="4" y="4" width="32" height="12" rx="6" fill="currentColor" opacity=".8"/><rect x="4" y="19" width="13" height="13" rx="1" fill="currentColor" opacity=".55"/><rect x="19" y="19" width="13" height="13" rx="1" fill="currentColor" opacity=".55"/><circle cx="32" cy="30" r="4" fill="currentColor" opacity=".95"/>'
   }
 ];

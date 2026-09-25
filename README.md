@@ -1,8 +1,8 @@
 # Buletin Editor — Cloud
 
 Editor buletin A4 (ekspor PNG/PDF) dengan:
-- **5 pilihan layout** (Klasik, Sidebar, Majalah, Galeri, Minimal) — hanya mengubah tata letak visual; field konten, jumlah paragraf, dan batas karakter **selalu sama** di semua layout.
-- **Tema dinamis**: 12 preset warna + color picker kustom (primer, aksen, warna kertas), dengan warna teks kontras dan warna gelap turunan dihitung otomatis.
+- **8 pilihan layout** — Klasik, Sidebar, Majalah, Galeri, Minimal, **Korporat Ungu** (header foto terbelah ala newsletter bisnis ungu), **Surat Kabar** (masthead gelap ala koran), dan **Korporat Biru** (foto rounded + badge bulat ala template Canva). Layout hanya mengubah tata letak visual; field konten, jumlah paragraf, dan batas karakter **selalu sama** di semua layout.
+- **Tema dinamis**: 15 preset warna (termasuk Violet Bisnis, Newsprint Noir, dan Sky Korporat yang selaras dengan 3 layout baru) + color picker kustom (primer, aksen, warna kertas), dengan warna teks kontras dan warna gelap turunan dihitung otomatis.
 - **Simpan ke cloud** lewat Supabase: setiap buletin (teks, layout, tema, dan gambar) tersimpan sebagai satu baris data, bisa dibuka lagi kapan pun, dari perangkat mana pun.
 - Upload foto header, 3 foto dokumentasi, dan background — otomatis diunggah ke Supabase Storage saat disimpan.
 

@@ -11,6 +11,6 @@
  * menyembunyikan key ini. Lihat README.md untuk setup lengkap.
  */
 window.SUPABASE_CONFIG = {
-  url: "https://siyjilqboziridvabrpl.supabase.co",
-  anonKey: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNpeWppbHFib3ppcmlkdmFicnBsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAwNDg0OTYsImV4cCI6MjEwNTYyNDQ5Nn0.G3qI1RQL-xNR7cycGEwfWuL40bfX__TuQ4I9_zAdFFE"
+  url: "https://YOUR-PROJECT-REF.supabase.co",
+  anonKey: "YOUR-ANON-PUBLIC-KEY"
 };

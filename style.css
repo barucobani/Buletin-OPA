@@ -387,6 +387,80 @@ input[type=range]::-webkit-slider-thumb{
 #a4doc[data-layout="minimal"] .blk-docs .doc-docs{padding:6px 46px 14px;opacity:.85;}
 #a4doc[data-layout="minimal"] .doc-photo{height:58px;}
 
+/* --- ungu-korporat: split header (text left / photo right), 3-col body + colour callout --- */
+#a4doc[data-layout="ungu-korporat"] .doc-header{min-height:210px;height:210px;}
+#a4doc[data-layout="ungu-korporat"] .header-photo-layer{left:56%;}
+#a4doc[data-layout="ungu-korporat"] .header-overlay{left:56%;background:linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(0,0,0,.4) 100%);}
+#a4doc[data-layout="ungu-korporat"] .header-overlay.no-photo{background:var(--doc-primary-dark);}
+#a4doc[data-layout="ungu-korporat"] .header-text{width:56%;padding-right:24px;}
+#a4doc[data-layout="ungu-korporat"] .doc-title{font-size:25px;max-width:100%;}
+#a4doc[data-layout="ungu-korporat"] .doc-sub{max-width:100%;}
+#a4doc[data-layout="ungu-korporat"] .doc-flow{
+  grid-template-columns:1fr 1fr 1fr;
+  grid-template-areas:
+    "n1 n2 n3"
+    "quote quote docs";
+}
+#a4doc[data-layout="ungu-korporat"] .blk-n1,
+#a4doc[data-layout="ungu-korporat"] .blk-n2,
+#a4doc[data-layout="ungu-korporat"] .blk-n3{padding:18px 16px 6px;}
+#a4doc[data-layout="ungu-korporat"] .blk-n1{padding-left:34px;}
+#a4doc[data-layout="ungu-korporat"] .blk-n3{padding-right:34px;}
+#a4doc[data-layout="ungu-korporat"] .doc-quote{
+  background:var(--doc-accent);color:#241c08;margin:12px 16px 12px 34px;padding:16px 22px;border-radius:8px;
+}
+#a4doc[data-layout="ungu-korporat"] .doc-quote .qmark{color:rgba(0,0,0,.12);}
+#a4doc[data-layout="ungu-korporat"] .doc-quote .qauthor{color:#241c08;opacity:.7;}
+#a4doc[data-layout="ungu-korporat"] .blk-docs .doc-docs{padding:12px 34px 16px 8px;}
+#a4doc[data-layout="ungu-korporat"] .docs-grid{grid-template-columns:1fr;}
+#a4doc[data-layout="ungu-korporat"] .doc-photo{height:96px;}
+
+/* --- surat-kabar: dark masthead newspaper, two-column intro + bold headline --- */
+#a4doc[data-layout="surat-kabar"]{--doc-paper:#121316;}
+#a4doc[data-layout="surat-kabar"] .narrative-text{color:#d7d7db;}
+#a4doc[data-layout="surat-kabar"] .dropcap-letter{color:var(--doc-accent);}
+#a4doc[data-layout="surat-kabar"] .sec-label{color:var(--doc-accent);}
+#a4doc[data-layout="surat-kabar"] .sec-label:before{background:var(--doc-accent);}
+#a4doc[data-layout="surat-kabar"] .doc-header{min-height:150px;height:150px;}
+#a4doc[data-layout="surat-kabar"] .doc-title{font-size:37px;text-transform:uppercase;letter-spacing:.3px;}
+#a4doc[data-layout="surat-kabar"] .doc-sub{opacity:.85;}
+#a4doc[data-layout="surat-kabar"] .doc-flow{
+  grid-template-columns:1fr 1fr;
+  grid-template-areas:
+    "n1 n2"
+    "quote quote"
+    "n3 n3"
+    "docs docs";
+}
+#a4doc[data-layout="surat-kabar"] .doc-quote{
+  background:transparent;color:#f1f1f1;border-top:2px solid var(--doc-accent);border-bottom:2px solid var(--doc-accent);
+  border-radius:0;padding:16px 34px;margin:8px 0;
+}
+#a4doc[data-layout="surat-kabar"] .doc-quote .qmark{color:rgba(255,255,255,.08);}
+#a4doc[data-layout="surat-kabar"] .doc-quote .qauthor{opacity:.65;}
+#a4doc[data-layout="surat-kabar"] .doc-cap{color:#9c9ca1;}
+
+/* --- biru-korporat: rounded photo header, clean 2-col body, circular accent badge --- */
+#a4doc[data-layout="biru-korporat"] .doc-header{border-radius:0 0 22px 22px;overflow:hidden;min-height:172px;height:172px;}
+#a4doc[data-layout="biru-korporat"] .doc-title{font-size:24px;}
+#a4doc[data-layout="biru-korporat"] .doc-flow{
+  grid-template-columns:1fr 1fr;
+  grid-template-areas:
+    "n1 n2"
+    "quote docs"
+    "n3 n3";
+}
+#a4doc[data-layout="biru-korporat"] .blk-n1{border-right:1px solid rgba(0,0,0,.07);}
+#a4doc[data-layout="biru-korporat"] .doc-quote{margin:14px 12px 14px 34px;}
+#a4doc[data-layout="biru-korporat"] .blk-docs .doc-docs{padding:18px 34px 16px 10px;}
+#a4doc[data-layout="biru-korporat"] .docs-grid{grid-template-columns:1fr 1fr;}
+#a4doc[data-layout="biru-korporat"] .doc-photo{height:64px;}
+#a4doc[data-layout="biru-korporat"] .doc-footer{position:relative;}
+#a4doc[data-layout="biru-korporat"] .doc-footer:after{
+  content:'';position:absolute;right:40px;top:-26px;width:52px;height:52px;border-radius:50%;
+  background:var(--doc-accent);border:3px solid var(--doc-paper);box-shadow:0 6px 14px rgba(0,0,0,.35);
+}
+
 /* ===== ZOOM TOOLBAR ===== */
 .zoom-toolbar{
   position:absolute;left:50%;bottom:22px;transform:translateX(-50%);display:flex;align-items:center;gap:4px;
