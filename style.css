@@ -226,7 +226,7 @@ input[type=range]::-webkit-slider-thumb{
 
 .doc-header{
   background:var(--doc-primary);color:var(--doc-on-primary);padding:22px 34px;position:relative;
-  min-height:190px;height:190px;display:flex;align-items:flex-end;overflow:hidden;
+  min-height:190px;display:flex;align-items:flex-end;overflow:hidden;
 }
 .header-photo-layer{position:absolute;inset:0;background-size:cover;background-position:center;background-color:var(--doc-primary);z-index:0;}
 .header-overlay{position:absolute;inset:0;background:linear-gradient(100deg, var(--doc-primary) 0%, rgba(0,0,0,.55) 55%, rgba(0,0,0,.28) 100%);z-index:1;}
@@ -388,7 +388,7 @@ input[type=range]::-webkit-slider-thumb{
 #a4doc[data-layout="minimal"] .doc-photo{height:58px;}
 
 /* --- ungu-korporat: split header (text left / photo right), 3-col body + colour callout --- */
-#a4doc[data-layout="ungu-korporat"] .doc-header{min-height:210px;height:210px;}
+#a4doc[data-layout="ungu-korporat"] .doc-header{min-height:210px;}
 #a4doc[data-layout="ungu-korporat"] .header-photo-layer{left:56%;}
 #a4doc[data-layout="ungu-korporat"] .header-overlay{left:56%;background:linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(0,0,0,.4) 100%);}
 #a4doc[data-layout="ungu-korporat"] .header-overlay.no-photo{background:var(--doc-primary-dark);}
@@ -421,7 +421,7 @@ input[type=range]::-webkit-slider-thumb{
 #a4doc[data-layout="surat-kabar"] .dropcap-letter{color:var(--doc-accent);}
 #a4doc[data-layout="surat-kabar"] .sec-label{color:var(--doc-accent);}
 #a4doc[data-layout="surat-kabar"] .sec-label:before{background:var(--doc-accent);}
-#a4doc[data-layout="surat-kabar"] .doc-header{min-height:150px;height:150px;}
+#a4doc[data-layout="surat-kabar"] .doc-header{min-height:150px;}
 #a4doc[data-layout="surat-kabar"] .doc-title{font-size:37px;text-transform:uppercase;letter-spacing:.3px;}
 #a4doc[data-layout="surat-kabar"] .doc-sub{opacity:.85;}
 #a4doc[data-layout="surat-kabar"] .doc-flow{
@@ -441,7 +441,7 @@ input[type=range]::-webkit-slider-thumb{
 #a4doc[data-layout="surat-kabar"] .doc-cap{color:#9c9ca1;}
 
 /* --- biru-korporat: rounded photo header, clean 2-col body, circular accent badge --- */
-#a4doc[data-layout="biru-korporat"] .doc-header{border-radius:0 0 22px 22px;overflow:hidden;min-height:172px;height:172px;}
+#a4doc[data-layout="biru-korporat"] .doc-header{border-radius:0 0 22px 22px;overflow:hidden;min-height:172px;}
 #a4doc[data-layout="biru-korporat"] .doc-title{font-size:24px;}
 #a4doc[data-layout="biru-korporat"] .doc-flow{
   grid-template-columns:1fr 1fr;
@@ -460,6 +460,59 @@ input[type=range]::-webkit-slider-thumb{
   content:'';position:absolute;right:40px;top:-26px;width:52px;height:52px;border-radius:50%;
   background:var(--doc-accent);border:3px solid var(--doc-paper);box-shadow:0 6px 14px rgba(0,0,0,.35);
 }
+
+/* --- editorial-teks: text-dominant, single column, only ONE documentation
+   photo shown (item 2 & 3 hidden) — so at most 2 photos appear on the page
+   (header photo + this one). Quote is a quiet inline pull-quote, not a box. --- */
+#a4doc[data-layout="editorial-teks"] .doc-flow{
+  grid-template-columns:1fr;
+  grid-template-areas:"n1" "n2" "docs" "quote" "n3";
+}
+#a4doc[data-layout="editorial-teks"] .blk-n1,
+#a4doc[data-layout="editorial-teks"] .blk-n2,
+#a4doc[data-layout="editorial-teks"] .blk-n3{padding:18px 46px 6px;}
+#a4doc[data-layout="editorial-teks"] .narrative-text{font-size:13.5px;line-height:1.95;}
+#a4doc[data-layout="editorial-teks"] .doc-quote{
+  background:transparent;color:var(--doc-primary);padding:2px 0 2px 22px;margin:8px 46px 4px;
+  border-radius:0;border-left:3px solid var(--doc-accent);
+}
+#a4doc[data-layout="editorial-teks"] .doc-quote .qmark{display:none;}
+#a4doc[data-layout="editorial-teks"] .doc-quote p{font-size:15px;color:var(--doc-primary);}
+#a4doc[data-layout="editorial-teks"] .doc-quote .qauthor{color:var(--doc-primary);opacity:.7;}
+#a4doc[data-layout="editorial-teks"] .blk-docs .doc-docs{padding:6px 46px 16px;}
+#a4doc[data-layout="editorial-teks"] .docs-grid{grid-template-columns:1fr;}
+#a4doc[data-layout="editorial-teks"] .doc-item:nth-child(2),
+#a4doc[data-layout="editorial-teks"] .doc-item:nth-child(3){display:none;}
+#a4doc[data-layout="editorial-teks"] .doc-photo{height:150px;}
+#a4doc[data-layout="editorial-teks"] .doc-photo .num-badge{display:none;}
+
+/* --- fokus-cerita: two dense text columns (like a long-read column layout),
+   quote as a quiet rule-framed line, only ONE documentation photo kept small
+   inside the second column — again max 2 photos total on the page. --- */
+#a4doc[data-layout="fokus-cerita"] .doc-header{min-height:130px;}
+#a4doc[data-layout="fokus-cerita"] .doc-title{font-size:22px;}
+#a4doc[data-layout="fokus-cerita"] .doc-flow{
+  grid-template-columns:1fr 1fr;
+  grid-template-areas:
+    "n1 n2"
+    "quote quote"
+    "n3 n3"
+    "docs docs";
+}
+#a4doc[data-layout="fokus-cerita"] .narrative-text{font-size:12.8px;line-height:1.85;}
+#a4doc[data-layout="fokus-cerita"] .doc-quote{
+  background:transparent;border-top:1px solid var(--doc-accent);border-bottom:1px solid var(--doc-accent);
+  border-radius:0;color:var(--doc-primary);padding:10px 46px;margin:2px 0;
+}
+#a4doc[data-layout="fokus-cerita"] .doc-quote .qmark{display:none;}
+#a4doc[data-layout="fokus-cerita"] .doc-quote p{font-style:italic;font-size:13.5px;}
+#a4doc[data-layout="fokus-cerita"] .doc-quote .qauthor{color:var(--doc-primary);opacity:.65;}
+#a4doc[data-layout="fokus-cerita"] .blk-docs .doc-docs{padding:8px 46px 16px;}
+#a4doc[data-layout="fokus-cerita"] .docs-grid{grid-template-columns:1fr;max-width:45%;}
+#a4doc[data-layout="fokus-cerita"] .doc-item:nth-child(2),
+#a4doc[data-layout="fokus-cerita"] .doc-item:nth-child(3){display:none;}
+#a4doc[data-layout="fokus-cerita"] .doc-photo{height:120px;}
+#a4doc[data-layout="fokus-cerita"] .doc-photo .num-badge{display:none;}
 
 /* ===== ZOOM TOOLBAR ===== */
 .zoom-toolbar{

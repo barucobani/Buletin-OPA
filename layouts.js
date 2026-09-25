@@ -45,5 +45,15 @@ window.LAYOUTS = [
     id:"biru-korporat",
     name:"Korporat Biru",
     icon:'<rect x="4" y="4" width="32" height="12" rx="6" fill="currentColor" opacity=".8"/><rect x="4" y="19" width="13" height="13" rx="1" fill="currentColor" opacity=".55"/><rect x="19" y="19" width="13" height="13" rx="1" fill="currentColor" opacity=".55"/><circle cx="32" cy="30" r="4" fill="currentColor" opacity=".95"/>'
+  },
+  {
+    id:"editorial-teks",
+    name:"Editorial Teks",
+    icon:'<rect x="6" y="4" width="28" height="6" rx="1.5" fill="currentColor" opacity=".4"/><rect x="6" y="13" width="28" height="2.4" rx="1" fill="currentColor" opacity=".8"/><rect x="6" y="17.5" width="28" height="2.4" rx="1" fill="currentColor" opacity=".8"/><rect x="6" y="22" width="28" height="2.4" rx="1" fill="currentColor" opacity=".8"/><rect x="6" y="27" width="17" height="8" rx="1" fill="currentColor" opacity=".55"/>'
+  },
+  {
+    id:"fokus-cerita",
+    name:"Fokus Cerita",
+    icon:'<rect x="6" y="4" width="28" height="5" rx="1.5" fill="currentColor" opacity=".4"/><rect x="6" y="12" width="13" height="2.2" rx="1" fill="currentColor" opacity=".8"/><rect x="6" y="16" width="13" height="2.2" rx="1" fill="currentColor" opacity=".8"/><rect x="6" y="20" width="13" height="2.2" rx="1" fill="currentColor" opacity=".8"/><rect x="21" y="12" width="13" height="2.2" rx="1" fill="currentColor" opacity=".8"/><rect x="21" y="16" width="13" height="2.2" rx="1" fill="currentColor" opacity=".8"/><rect x="21" y="20" width="8" height="8" rx="1" fill="currentColor" opacity=".55"/>'
   }
 ];
